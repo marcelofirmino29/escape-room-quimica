@@ -25,20 +25,20 @@ export default {
     door3: new GLTFShape("models/room3/Puzzle03_Door.glb"),
     door4: new GLTFShape("models/room4/Puzzle04_LibraryDoor.glb"),
     door5: new GLTFShape("models/room5/Puzzle05_Door.glb"),
-   // door6: new GLTFShape("models/room6/Puzzle06_Door.glb"),
-   // door7: new GLTFShape("models/room7/Puzzle07_Door.glb"),
-   // door8: new GLTFShape("models/room8/Puzzle08_Door.glb"),
-   // door9: new GLTFShape("models/room9/Puzzle09_Door.glb"),
+    door6: new GLTFShape("models/room6/Puzzle06_Door.glb"),
+    door7: new GLTFShape("models/room7/Puzzle07_Door.glb"),
+    door8: new GLTFShape("models/room8/Puzzle08_Door.glb"),
+    door9: new GLTFShape("models/room9/Puzzle09_Door.glb"),
 
-   // mouseWill: new GLTFShape("models/room9/Puzzle09_MouseWill.glb"),
-   // fanModel: new GLTFShape("models/room9/Fan.glb"),
-   // drawer: new GLTFShape("models/room9/Drawer.glb"),
-  //  kitchenModel: new GLTFShape("models/room9/Puzzle09_Game.glb"),
+    mouseWill: new GLTFShape("models/room9/Puzzle09_MouseWill.glb"),
+    fanModel: new GLTFShape("models/room9/Fan.glb"),
+    drawer: new GLTFShape("models/room9/Drawer.glb"),
+    kitchenModel: new GLTFShape("models/room9/Puzzle09_Game.glb"),
 
-   // mouse: new GLTFShape("models/room8/Mouse.glb"),
-   // ticket: new GLTFShape("models/room8/Ticket.glb"),
+    mouse: new GLTFShape("models/room8/Mouse.glb"),
+    ticket: new GLTFShape("models/room8/Ticket.glb"),
     numpad1: new GLTFShape("models/room5/Numpad1.glb"),
-   // numpad2: new GLTFShape("models/room6/Numpad2.glb"),
+    numpad2: new GLTFShape("models/room6/Numpad2.glb"),
     carpet: new GLTFShape("models/room5/Puzzle05_Carpet.glb"),
     postit: new GLTFShape("models/room5/Puzzle05_Postit.glb"),
     pictureFrame: new GLTFShape("models/room5/Puzzle05_PictureMain.glb"),
@@ -52,13 +52,13 @@ export default {
     scene: new GLTFShape("models/scene.glb"),
     squareButton: new GLTFShape("models/room2/Square_Button.glb"),
     telescope: new GLTFShape("models/room4/Puzzle04_Telescope.glb"),
-   // muna: new GLTFShape("models/room6/Puzzle06_Muna.glb"),
-   // spotlight: new GLTFShape("models/room6/spotlightlight.glb"),
+    muna: new GLTFShape("models/room6/Puzzle06_Muna.glb"),
+    spotlight: new GLTFShape("models/room6/spotlightlight.glb"),
 
-   // tvOff: new GLTFShape("models/room7/TVColor.glb"),
-   // tvOn: new GLTFShape("models/room7/TVOrange.glb"),
-   // lightOnSrc: "models/room7/Puzzle07_LightOn.glb",
-   // lightOffSrc: "models/room7/Puzzle07_LightOff.glb"
+    tvOff: new GLTFShape("models/room7/TVColor.glb"),
+    tvOn: new GLTFShape("models/room7/TVOrange.glb"),
+    lightOnSrc: "models/room7/Puzzle07_LightOn.glb",
+    lightOffSrc: "models/room7/Puzzle07_LightOff.glb"
   },
   textures: {
     closeHintButton: new Texture("images/room5/button_close.png"),
@@ -78,24 +78,24 @@ export default {
     playerPortraitDefault: new Texture("images/dialogs/player_default.png", {
       hasAlpha: true
     }),
-   // playerPortraitSurprised: new Texture(
-     // "images/dialogs/player_surprised.png",
-   //   { hasAlpha: true }
-   // ),
-    //playerPortraitThinking: new Texture("images/dialogs/player_thinking.png", {
-    //  hasAlpha: true
-   // }),
-   // npcPortraitDefault: new Texture("images/dialogs/dog_default.png", {
-   //   hasAlpha: true
-  //  }),
-  //  npcPortraitSurprised: new Texture("images/dialogs/dog_surprised.png", {
-  //    hasAlpha: true
-   // }),
-  //  npcPortraitThinking: new Texture("images/dialogs/dog_thinking.png", {
-   //   hasAlpha: true
-   // }),
-   // bubble: new Texture("images/room9/bubbleTexture.png", {
-    //  hasAlpha: false
-  //  })
+    playerPortraitSurprised: new Texture(
+      "images/dialogs/player_surprised.png",
+      { hasAlpha: true }
+    ),
+    playerPortraitThinking: new Texture("images/dialogs/player_thinking.png", {
+      hasAlpha: true
+    }),
+    npcPortraitDefault: new Texture("images/dialogs/dog_default.png", {
+      hasAlpha: true
+    }),
+    npcPortraitSurprised: new Texture("images/dialogs/dog_surprised.png", {
+      hasAlpha: true
+    }),
+    npcPortraitThinking: new Texture("images/dialogs/dog_thinking.png", {
+      hasAlpha: true
+    }),
+    bubble: new Texture("images/room9/bubbleTexture.png", {
+      hasAlpha: false
+    })
   }
 };

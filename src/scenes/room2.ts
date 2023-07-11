@@ -22,7 +22,7 @@ export function CreateRoom2(): void {
   });
 
   button.addComponent(
-    new OnPointerDown((): void => {
+    new OnClick((): void => {
       if (!countdownClock.hasComponent(utils.Interval)) {
         button.press();
         door.openDoor();
