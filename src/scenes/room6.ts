@@ -66,7 +66,7 @@ export function CreateRoom6(gameCanvas: UICanvas): void {
       );
     } else {
       // The password is incorrect
-      keypad.display("Err", Color4.Red());
+      keypad.display("Erro", Color4.Red());
       numPadLock.playAccessDenied();
       currentInput = "";
     }

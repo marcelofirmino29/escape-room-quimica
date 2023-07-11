@@ -52,11 +52,12 @@ export class MunaDialog extends SimpleDialog {
     });
 
     // Some random replies for muna
-    const randomStartingOptions = ["I see...", "...", "...OK..."];
+    const randomStartingOptions = [
+      "Entendo...", "...", "...OK..."];
     const randomWrongAnswers = [
-      "You are just guessing...",
-      "No it is not...",
-      "What? Not even close!"
+      "Você está apenas adivinhando...",
+      "Não não é...",
+      "O quê? Nem perto!"
     ];
 
     // Variables used in the dialog tree
@@ -76,19 +77,19 @@ export class MunaDialog extends SimpleDialog {
         SimpleDialog.PortraitIndex.RIGHT,
         resources.textures.npcPortraitDefault
       )
-      .say(() => "Hi there stranger!", { color: npcColor })
+      .say(() => "Olá estranho!", { color: npcColor })
       .showPortrait(
         SimpleDialog.PortraitIndex.LEFT,
         resources.textures.playerPortraitSurprised
       )
-      .say(() => "A talking dog statue?!", { color: playerColor })
+      .say(() => "Uma estátua de cachorro falante?!", { color: playerColor })
       .showPortrait(
         SimpleDialog.PortraitIndex.RIGHT,
         resources.textures.npcPortraitSurprised
       )
       .say(
         () =>
-          "You're a talking bear yourself... you don't see me making any judgements.",
+          "Você também é um urso falante... não me vê fazendo nenhum julgamento.",
         { color: npcColor }
       )
       .showPortrait(
@@ -99,7 +100,7 @@ export class MunaDialog extends SimpleDialog {
         SimpleDialog.PortraitIndex.RIGHT,
         resources.textures.npcPortraitDefault
       )
-      .say(() => "Anyway... how do I get out of this place?", {
+      .say(() => "Enfim... como faço para sair deste lugar?", {
         color: playerColor
       })
       .showPortrait(
@@ -108,7 +109,7 @@ export class MunaDialog extends SimpleDialog {
       )
       .say(
         () =>
-          "You'll have to pass through me. And I'll only let you if you answer my three questions.",
+          "Você terá que passar por mim. E eu só vou deixar você responder às minhas três perguntas.",
         { color: npcColor }
       )
       .showPortrait(
@@ -121,10 +122,10 @@ export class MunaDialog extends SimpleDialog {
       )
       .say(
         () =>
-          "So go ahead, explore the other rooms and solve the puzzles to find the answers to my questions!",
+          "Então vá em frente, explore as outras salas e resolva os quebra-cabeças para encontrar as respostas para minhas perguntas!",
         { color: npcColor }
       )
-      .say(() => "Um... sure, why not? Who am I to argue?", {
+      .say(() => "Hum... claro, por que não? Quem sou eu para discutir?", {
         color: playerColor
       })
       .wait(3)
@@ -138,12 +139,12 @@ export class MunaDialog extends SimpleDialog {
         resources.textures.npcPortraitThinking
       )
       .if(() => firstOptionCorrect && secondOptionCorrect && thirdOptionCorrect)
-      .say(() => "We're done talking. \nEnter the code and you can leave.", {
+      .say(() => "Acabamos de falar. \nDigite o código e você pode sair.", {
         color: npcColor
       })
       .wait(3)
       .else()
-      .say(() => "Did you solve my puzzles? Do you know the answers?", {
+      .say(() => "Você resolveu meus quebra-cabeças? você sabe as respostas?", {
         color: npcColor
       })
       .showPortrait(
@@ -151,12 +152,12 @@ export class MunaDialog extends SimpleDialog {
         resources.textures.playerPortraitThinking
       )
       .beginOptionsGroup()
-      .option(() => "- Yes.")
+      .option(() => "- Sim.")
       .showPortrait(
         SimpleDialog.PortraitIndex.LEFT,
         resources.textures.playerPortraitDefault
       )
-      .say(() => "Yes. Why do you think I came all the way down here?", {
+      .say(() => "Sim. Por que você acha que vim até aqui?", {
         color: playerColor
       })
       .showPortrait(
@@ -168,43 +169,43 @@ export class MunaDialog extends SimpleDialog {
         SimpleDialog.PortraitIndex.RIGHT,
         resources.textures.npcPortraitThinking
       )
-      .say(() => "Very well then... answer me this:", { color: npcColor })
+      .say(() => "Muito bem então... responda-me isto", { color: npcColor })
       .showPortrait(
         SimpleDialog.PortraitIndex.RIGHT,
         resources.textures.npcPortraitDefault
       )
       .if(() => !firstOptionCorrect)
-      .say(() => "What’s my favorite color?", { color: npcColor })
+      .say(() => "Qual é a minha cor favorita?", { color: npcColor })
       .showPortrait(
         SimpleDialog.PortraitIndex.LEFT,
         resources.textures.playerPortraitThinking
       )
       .beginOptionsGroup()
-      .option(() => "- Green.")
-      .say(() => "Is it green?", { color: playerColor })
+      .option(() => "- Verde.")
+      .say(() => "É verde?", { color: playerColor })
       .showPortrait(
         SimpleDialog.PortraitIndex.RIGHT,
         resources.textures.npcPortraitSurprised
       )
       .say(() => selectRandom(randomWrongAnswers), { color: npcColor })
       .endOption()
-      .option(() => "- Blue.")
-      .say(() => "Blue... right?", { color: playerColor })
+      .option(() => "- Azul.")
+      .say(() => "Azul... certo?", { color: playerColor })
       .showPortrait(
         SimpleDialog.PortraitIndex.RIGHT,
         resources.textures.npcPortraitSurprised
       )
       .say(() => selectRandom(randomWrongAnswers), { color: npcColor })
       .endOption()
-      .option(() => "- Orange.")
-      .say(() => "Organge!", { color: playerColor })
+      .option(() => "- Laranja.")
+      .say(() => "Laranja!", { color: playerColor })
       .call(() => (firstOptionCorrect = true))
       .showPortrait(
         SimpleDialog.PortraitIndex.RIGHT,
         resources.textures.npcPortraitSurprised
       )
-      .say(() => "That’s right!", { color: npcColor })
-      .say(() => '"In the midst of darkness, light persists."', {
+      .say(() => "Isso mesmo!", { color: npcColor })
+      .say(() => '"No meio da escuridão, a luz persiste."', {
         color: npcColor
       })
       .call(() => this.onCorrectAnswer(0))
@@ -212,35 +213,35 @@ export class MunaDialog extends SimpleDialog {
       .endOptionsGroup()
       .else()
       .if(() => !secondOptionCorrect)
-      .say(() => "What’s my favorite game?", { color: npcColor })
+      .say(() => "Qual é o meu jogo favorito?", { color: npcColor })
       .showPortrait(
         SimpleDialog.PortraitIndex.LEFT,
         resources.textures.playerPortraitThinking
       )
       .beginOptionsGroup()
-      .option(() => "- Retro arcade games.")
-      .say(() => "Is it retro arcade games?", { color: playerColor })
+      .option(() => "- Jogos de arcade retrô.")
+      .say(() => "São jogos de arcade retrô?", { color: playerColor })
       .showPortrait(
         SimpleDialog.PortraitIndex.RIGHT,
         resources.textures.npcPortraitSurprised
       )
       .say(() => selectRandom(randomWrongAnswers), { color: npcColor })
       .endOption()
-      .option(() => "- Darts.")
-      .say(() => "Darts?", { color: playerColor })
+      .option(() => "- Dardos.")
+      .say(() => "Dardos?", { color: playerColor })
       .call(() => (secondOptionCorrect = true))
       .showPortrait(
         SimpleDialog.PortraitIndex.RIGHT,
         resources.textures.npcPortraitSurprised
       )
-      .say(() => "Yes it is...", { color: npcColor })
-      .say(() => '"Give light, and the darkness will disappear of itself."', {
+      .say(() => "É sim...", { color: npcColor })
+      .say(() => '"Dê luz, e a escuridão desaparecerá por si mesma."', {
         color: npcColor
       })
       .call(() => this.onCorrectAnswer(1))
       .endOption()
-      .option(() => "- Bowling.")
-      .say(() => "Of course… It’s bowling... right?", { color: playerColor })
+      .option(() => "- Boliche.")
+      .say(() => "Claro... É boliche... certo?", { color: playerColor })
       .showPortrait(
         SimpleDialog.PortraitIndex.RIGHT,
         resources.textures.npcPortraitSurprised
@@ -250,30 +251,30 @@ export class MunaDialog extends SimpleDialog {
       .endOptionsGroup()
       .else()
       .if(() => !thirdOptionCorrect)
-      .say(() => "What’s my favorite dessert?", { color: npcColor })
+      .say(() => "Qual é a minha sobremesa favorita?", { color: npcColor })
       .showPortrait(
         SimpleDialog.PortraitIndex.LEFT,
         resources.textures.playerPortraitThinking
       )
       .beginOptionsGroup()
-      .option(() => "- Cheese Cake.")
-      .say(() => "Cheese Cake?", { color: playerColor })
+      .option(() => "- Bolo de queijo.")
+      .say(() => "Bolo de queijo?", { color: playerColor })
       .showPortrait(
         SimpleDialog.PortraitIndex.RIGHT,
         resources.textures.npcPortraitSurprised
       )
       .say(() => selectRandom(randomWrongAnswers), { color: npcColor })
       .endOption()
-      .option(() => "- Apple Pie.")
-      .say(() => "It's Apple Pie...", { color: playerColor })
+      .option(() => "- Bolo de Milho.")
+      .say(() => "Isso é bolo de milho?...", { color: playerColor })
       .showPortrait(
         SimpleDialog.PortraitIndex.RIGHT,
         resources.textures.npcPortraitSurprised
       )
       .say(() => selectRandom(randomWrongAnswers), { color: npcColor })
       .endOption()
-      .option(() => "- Lemon Pie.")
-      .say(() => "Lemon Pie!", { color: playerColor })
+      .option(() => "- Bolo de limão.")
+      .say(() => "Bolo de limão!", { color: playerColor })
       .showPortrait(
         SimpleDialog.PortraitIndex.RIGHT,
         resources.textures.npcPortraitSurprised
@@ -283,8 +284,8 @@ export class MunaDialog extends SimpleDialog {
         SimpleDialog.PortraitIndex.RIGHT,
         resources.textures.npcPortraitSurprised
       )
-      .say(() => "Very good...", { color: npcColor })
-      .say(() => '"Give light and people will find the way."')
+      .say(() => "Muito bom...", { color: npcColor })
+      .say(() => '"Dê luz e as pessoas encontrarão o caminho."')
       .call(() => this.onCorrectAnswer(2))
       .endOption()
       .endOptionsGroup()
@@ -292,17 +293,17 @@ export class MunaDialog extends SimpleDialog {
       .endif()
       .endif()
       .endOption()
-      .option(() => "- No, not yet")
+      .option(() => "- Não, não ainda.")
       .showPortrait(
         SimpleDialog.PortraitIndex.LEFT,
         resources.textures.playerPortraitDefault
       )
-      .say(() => "No, not yet", { color: playerColor })
+      .say(() => "Não, não ainda!", { color: playerColor })
       .showPortrait(
         SimpleDialog.PortraitIndex.RIGHT,
         resources.textures.npcPortraitSurprised
       )
-      .say(() => "You are wasting my time.", { color: npcColor })
+      .say(() => "Você está desperdiçando o meu tempo.", { color: npcColor })
       .endOption()
       .endOptionsGroup()
       .endif();
