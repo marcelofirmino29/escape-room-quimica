@@ -10,7 +10,7 @@ export function CreateRoom1(): void {
   );
 
   door.addComponent(
-    new OnClick((): void => {
+    new OnPointerDown((): void => {
       door.openDoor();
     })
   );

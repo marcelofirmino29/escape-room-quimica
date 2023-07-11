@@ -2,6 +2,7 @@ import { MovableEntity, RotatableEntity } from "../gameObjects/index";
 import utils from "../../node_modules/decentraland-ecs-utils/index";
 import resources from "../resources";
 
+
 export function CreateRoom4(): void {
   const bookshelf = new MovableEntity(
     resources.models.door4,
@@ -22,7 +23,7 @@ export function CreateRoom4(): void {
     new Vector3(0, 0, -0.2)
   );
   movableBook.addComponent(
-    new OnClick((): void => {
+    new OnPointerDown((): void => {
       movableBook.getComponent(utils.ToggleComponent).toggle();
     })
   );
@@ -36,67 +37,66 @@ export function CreateRoom4(): void {
     new Vector3(0.2, 0, 0)
   );
   wineGlass.addComponent(
-    new OnClick((): void => {
+    new OnPointerDown((): void => {
       wineGlass.getComponent(utils.ToggleComponent).toggle();
     })
   );
-
   const telescope = new RotatableEntity(
-    resources.models.telescope,
+    new GLTFShape("models/room4/Puzzle04_Telescope.glb"),
     new Transform({
       position: new Vector3(22.6554, 7.02615, 10.6208)
     }),
-    resources.sounds.moveObject1,
+    new AudioClip("sounds/move_object1.mp3"),
     Quaternion.Euler(0, 127, 0)
   );
   telescope.addComponent(
-    new OnClick((): void => {
+    new OnPointerDown((): void => {
       telescope.getComponent(utils.ToggleComponent).toggle();
     })
   );
-
+  
   const globe = new RotatableEntity(
-    resources.models.globe,
+    new GLTFShape("models/room4/Puzzle04_Globe.glb"),
     new Transform({
       position: new Vector3(21.2191, 7.11234, 10.6817),
       rotation: Quaternion.Euler(0.146, 34.9, -33.8)
     }),
-    resources.sounds.moveObject1,
+    new AudioClip("sounds/move_object1.mp3"),
     Quaternion.Euler(174, -26.43, -149.37)
   );
-
+  
   globe.addComponent(
-    new OnClick((): void => {
+    new OnPointerDown((): void => {
       globe.getComponent(utils.ToggleComponent).toggle();
     })
   );
-
+  
   const rotatableBook = new RotatableEntity(
-    resources.models.book1,
+    new GLTFShape("models/room4/Puzzle04_Book1.glb"),
     new Transform({
       position: new Vector3(15.8321, 7.83095, 14.1252)
     }),
-    resources.sounds.moveObject1,
+    new AudioClip("sounds/move_object1.mp3"),
     Quaternion.Euler(0, 0, -25)
   );
-
+  
   rotatableBook.addComponent(
-    new OnClick((): void => {
+    new OnPointerDown((): void => {
       rotatableBook.getComponent(utils.ToggleComponent).toggle();
     })
   );
 
   const candleHolder = new RotatableEntity(
-    resources.models.candleHolder,
+    new GLTFShape("models/room4/Puzzle04_CandleHolder.glb"),
     new Transform({
       position: new Vector3(17.5056, 7.61611, 15.3835)
     }),
-    resources.sounds.moveObject2,
+    new AudioClip("sounds/move_object2.mp3"),
     Quaternion.Euler(0, 0, 30)
   );
-
+  
   candleHolder.addComponent(
-    new OnClick((): void => {
+    new OnPointerDown((): void => {
       candleHolder.getComponent(utils.ToggleComponent).toggle();
       bookshelf.getComponent(utils.ToggleComponent).toggle();
     })
