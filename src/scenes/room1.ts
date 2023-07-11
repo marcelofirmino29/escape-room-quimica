@@ -1,4 +1,3 @@
-// Switch the import to use the index
 import { Door } from "../gameObjects/index";
 import resources from "../resources";
 
