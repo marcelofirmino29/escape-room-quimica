@@ -1,5 +1,5 @@
 import utils from "../../node_modules/decentraland-ecs-utils/index";
-import { Button, Door, Timer } from "../gameObjects/index";
+import { Button, Door, Timer, MovableEntity  } from "../gameObjects/index";
 import resources from "../resources";
 
 const openDoorTime = 5;
@@ -21,11 +21,22 @@ export function CreateRoom2(): void {
     position: new Vector3(26.3714, 6.89, 26.8936)
   });
 
+  const munaStatue = new MovableEntity(
+    resources.models.muna,
+    { position: new Vector3(25.14, 5.51634, 26.22),
+      rotation: Quaternion.Euler(0, 90, 0) // Rotaciona em 180 graus em torno do eixo Y
+    },
+    
+    resources.sounds.moveObject1,
+    new Vector3(0, 0, 4)
+  );
+
   button.addComponent(
     new OnClick((): void => {
       if (!countdownClock.hasComponent(utils.Interval)) {
         button.press();
         door.openDoor();
+        munaStatue.getComponent(utils.ToggleComponent).toggle();
 
         let timeRemaining = openDoorTime;
         countdownClock.addComponent(
@@ -38,6 +49,7 @@ export function CreateRoom2(): void {
               countdownClock.removeComponent(utils.Interval);
 
               door.closeDoor();
+              munaStatue.getComponent(utils.ToggleComponent).toggle();
 
               countdownClock.updateTimeString(openDoorTime);
             }

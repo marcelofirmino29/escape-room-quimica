@@ -1,6 +1,6 @@
 import utils from "../../node_modules/decentraland-ecs-utils/index";
 import resources from "../resources";
-import { Door, Model, NumPadLock, RotatableEntity } from "../gameObjects/index";
+import { Door, Model, NumPadLock, RotatableEntity, MovableEntity } from "../gameObjects/index";
 import { ImageHint, Keypad } from "../ui/index";
 
 export function CreateRoom5(gameCanvas: UICanvas): void {
@@ -66,6 +66,18 @@ export function CreateRoom5(gameCanvas: UICanvas): void {
     })
   );
 
+  const bookshelf = new MovableEntity(
+    resources.models.door4,
+    new Transform({
+      position: new Vector3(18.8, 5.4, 23.65),
+      rotation: Quaternion.Euler(0, 90, 0) // Rotaciona em 180 graus em torno do eixo Y
+    }),
+    resources.sounds.moveObject1,
+    new Vector3(0, 0, -4),
+    3
+  );
+  
+
   // Wire up the keypad logic
   let currentInput = "";
   keypad.onInput = (value: number): void => {
@@ -87,6 +99,7 @@ export function CreateRoom5(gameCanvas: UICanvas): void {
         new utils.ExpireIn(2000, (): void => {
           keypad.container.visible = false;
           door.openDoor();
+          bookshelf.getComponent(utils.ToggleComponent).toggle();
         })
       );
     } else {

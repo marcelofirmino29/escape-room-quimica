@@ -13,7 +13,9 @@ export function CreateRoom1(): void {
   // A statue blocks the doorway
   const munaStatue = new MovableEntity(
     resources.models.muna,
-    { position: new Vector3(21.89, 10.8, 23.07) },
+    { position: new Vector3(21.89, 10.8, 23.07),
+      rotation: Quaternion.Euler(0, -90, 0) // Rotaciona em 180 graus em torno do eixo Y
+    },
     resources.sounds.moveObject1,
     new Vector3(2, 0, 0),
     1.5
