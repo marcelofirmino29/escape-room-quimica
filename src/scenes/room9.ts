@@ -32,7 +32,7 @@ export function CreateRoom9(): void {
 
   //listen to onclick event to toggle door state
   door.addComponent(
-    new OnClick(() => {
+    new OnPointerDown(() => {
       door.openDoor();
     })
   );
@@ -155,7 +155,7 @@ export function CreateRoom9(): void {
 
   //listen for click on mouse
   mouseEntity.addComponent(
-    new OnClick(event => {
+    new OnPointerDown(event => {
       mouseStateMachine.handleEvent(
         new StateMachineOnClickEvent(
           mouseStateMachine,
@@ -192,7 +192,7 @@ export function CreateRoom9(): void {
 
   //listen for click on bubble
   bubbleEntity.addComponent(
-    new OnClick(event => {
+    new OnPointerDown(event => {
       mouseStateMachine.handleEvent(
         new StateMachineOnClickEvent(
           mouseStateMachine,
@@ -308,7 +308,7 @@ export function CreateRoom9(): void {
     );
     //listen for click
     fanEntity.addComponent(
-      new OnClick((): void => {
+      new OnPointerDown((): void => {
         fanEntity.getComponent(utils.ToggleComponent).toggle();
       })
     );

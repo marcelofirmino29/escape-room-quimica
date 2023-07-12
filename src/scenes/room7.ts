@@ -25,7 +25,7 @@ export function CreateRoom7(): void {
     resources.sounds.doorSqueek
   );
   door.addComponent(
-    new OnClick((): void => {
+    new OnPointerDown((): void => {
       if (!door.isOpen) {
         door.openDoor();
       }
@@ -86,7 +86,7 @@ export function CreateRoom7(): void {
       position: buttonPositions[i]
     });
     button.addComponent(
-      new OnClick((): void => {
+      new OnPointerDown((): void => {
         if (areButtonsEnabled) {
           buttonInteractions[i]();
           button.press();

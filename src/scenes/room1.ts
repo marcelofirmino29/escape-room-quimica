@@ -22,7 +22,7 @@ export function CreateRoom1(): void {
   );
 
   door.addComponent(
-    new OnClick((): void => {
+    new OnPointerDown((): void => {
       munaStatue.getComponent(utils.ToggleComponent).toggle();
       door.openDoor();
     })

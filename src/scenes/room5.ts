@@ -20,7 +20,7 @@ export function CreateRoom5(gameCanvas: UICanvas): void {
   const paintingHint = new ImageHint(gameCanvas, resources.textures.fernHint);
   paintingHint.container.visible = false;
   painting.addComponent(
-    new OnClick((): void => {
+    new OnPointerDown((): void => {
       paintingHint.container.visible = true;
     })
   );
@@ -36,7 +36,7 @@ export function CreateRoom5(gameCanvas: UICanvas): void {
     Quaternion.Euler(0, -10, 0)
   );
   carpet.addComponent(
-    new OnClick((): void => {
+    new OnPointerDown((): void => {
       carpet.getComponent(utils.ToggleComponent).toggle();
     })
   );
@@ -49,7 +49,8 @@ export function CreateRoom5(gameCanvas: UICanvas): void {
   const postitHint = new ImageHint(gameCanvas, resources.textures.postitHint);
   postitHint.container.visible = false;
   postit.addComponent(
-    new OnClick((): void => {
+    new OnPointerDown
+    ((): void => {
       postitHint.container.visible = true;
     })
   );
@@ -61,7 +62,7 @@ export function CreateRoom5(gameCanvas: UICanvas): void {
   // Add a panel which opens the UI when clicked
   const numPadLock = new NumPadLock(resources.models.numpad1);
   numPadLock.addComponent(
-    new OnClick((): void => {
+    new OnPointerDown((): void => {
       keypad.container.visible = true;
     })
   );

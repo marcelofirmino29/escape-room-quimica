@@ -16,7 +16,7 @@ export function CreateRoom8(): void {
     resources.sounds.doorSqueek
   );
   door.addComponent(
-    new OnClick((): void => {
+    new OnPointerDown((): void => {
       door.openDoor();
     })
   );

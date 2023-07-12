@@ -36,7 +36,7 @@ export function CreateRoom3(): void {
   });
 
   button.addComponent(
-    new OnClick((): void => {
+    new OnPointerDown((): void => {
       button.press();
       door.openDoor(false);
       trigger.getComponent(utils.TriggerComponent).enabled = false;
@@ -50,7 +50,7 @@ export function CreateRoom3(): void {
     new Vector3(0, 0, -0.5)
   );
   fern1.addComponent(
-    new OnClick((): void => {
+    new OnPointerDown((): void => {
       fern1.getComponent(utils.ToggleComponent).toggle();
     })
   );
@@ -62,7 +62,7 @@ export function CreateRoom3(): void {
     new Vector3(0, 0, -0.5)
   );
   fern2.addComponent(
-    new OnClick((): void => {
+    new OnPointerDown((): void => {
       fern2.getComponent(utils.ToggleComponent).toggle();
     })
   );
@@ -73,7 +73,7 @@ export function CreateRoom3(): void {
     new Vector3(0, 0, 0.5)
   );
   fern3.addComponent(
-    new OnClick((): void => {
+    new OnPointerDown((): void => {
       fern3.getComponent(utils.ToggleComponent).toggle();
     })
   );
@@ -84,7 +84,7 @@ export function CreateRoom3(): void {
     new Vector3(0, 0, 0.5)
   );
   fern4.addComponent(
-    new OnClick((): void => {
+    new OnPointerDown((): void => {
       fern4.getComponent(utils.ToggleComponent).toggle();
     })
   );

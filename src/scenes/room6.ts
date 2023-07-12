@@ -34,7 +34,7 @@ export function CreateRoom6(gameCanvas: UICanvas): void {
   // Add a panel which opens the UI when clicked
   const numPadLock = new NumPadLock(resources.models.numpad2);
   numPadLock.addComponent(
-    new OnClick((): void => {
+    new OnPointerDown((): void => {
       keypad.container.visible = true;
     })
   );
@@ -56,7 +56,7 @@ export function CreateRoom6(gameCanvas: UICanvas): void {
       // Correct!
       keypad.display("OK!", Color4.Green());
       numPadLock.playAccessGranted();
-      numPadLock.removeComponent(OnClick);
+      numPadLock.removeComponent(OnPointerDown);
       munaStatue.getComponent(utils.ToggleComponent).toggle();
       numPadLock.addComponentOrReplace(
         new utils.Delay(2000, (): void => {
@@ -102,7 +102,7 @@ export function CreateRoom6(gameCanvas: UICanvas): void {
 
   // Kick off the dialog when the statue is clicked
   munaStatue.addComponent(
-    new OnClick((): void => {
+    new OnPointerDown((): void => {
       dialog.run();
     })
   );

@@ -22,7 +22,7 @@ export function CreateRoom4(): void {
     new Vector3(0, 0, -0.2)
   );
   movableBook.addComponent(
-    new OnClick((): void => {
+    new OnPointerDown((): void => {
       movableBook.getComponent(utils.ToggleComponent).toggle();
     })
   );
@@ -36,7 +36,7 @@ export function CreateRoom4(): void {
     new Vector3(0.2, 0, 0)
   );
   wineGlass.addComponent(
-    new OnClick((): void => {
+    new OnPointerDown((): void => {
       wineGlass.getComponent(utils.ToggleComponent).toggle();
     })
   );
@@ -50,7 +50,7 @@ export function CreateRoom4(): void {
     Quaternion.Euler(0, 127, 0)
   );
   telescope.addComponent(
-    new OnClick((): void => {
+    new OnPointerDown((): void => {
       telescope.getComponent(utils.ToggleComponent).toggle();
     })
   );
@@ -66,7 +66,7 @@ export function CreateRoom4(): void {
   );
 
   globe.addComponent(
-    new OnClick((): void => {
+    new OnPointerDown((): void => {
       globe.getComponent(utils.ToggleComponent).toggle();
     })
   );
@@ -81,7 +81,7 @@ export function CreateRoom4(): void {
   );
 
   rotatableBook.addComponent(
-    new OnClick((): void => {
+    new OnPointerDown((): void => {
       rotatableBook.getComponent(utils.ToggleComponent).toggle();
     })
   );
@@ -96,7 +96,7 @@ export function CreateRoom4(): void {
   );
 
   candleHolder.addComponent(
-    new OnClick((): void => {
+    new OnPointerDown((): void => {
       candleHolder.getComponent(utils.ToggleComponent).toggle();
       bookshelf.getComponent(utils.ToggleComponent).toggle();
     })
