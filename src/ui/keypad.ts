@@ -1,28 +1,28 @@
 import resources from "../resources";
 
-// Constants for positioning
+// Constantes para posicionamento
 const panelPosition = new Vector2(12, -24);
 const buttonSize = new Vector2(55, 55);
 const buttonSpace = new Vector2(5, 5);
 
 export class Keypad {
-  // Expose the container for changing visibility
+  // Expor o container para alterar a visibilidade
   public container: UIContainerRect;
 
   private panelInputs: UIText[];
 
   /**
-   * Called when a value key is pressed.
+   * Chamado quando uma tecla de valor é pressionada.
    */
   public onInput: (value: number) => void;
 
   /**
-   * Called when the reset button is pressed.
+   * Chamado quando o botão de reset é pressionado.
    */
   public onReset: () => void;
 
   /**
-   * Called when the submit button is pressed.
+   * Chamado quando o botão de envio é pressionado.
    */
   public onSubmit: () => void;
 
@@ -33,7 +33,7 @@ export class Keypad {
     this.container.width = "100%";
     this.container.height = "100%";
 
-    // Display an image in the background for the keypad UI
+    // Exibir uma imagem em segundo plano para a interface do teclado
     const panelBackground = new UIImage(
       this.container,
       resources.textures.panelBackground
@@ -45,7 +45,7 @@ export class Keypad {
     panelBackground.positionX = 70;
     panelBackground.positionY = -55;
 
-    // Add a close button near the top right
+    // Adicionar um botão de fechar próximo ao canto superior direito
     const closeImage = new UIImage(
       this.container,
       resources.textures.closeButton
@@ -57,12 +57,12 @@ export class Keypad {
     closeImage.positionX = 194;
     closeImage.positionY = 108;
 
-    // When close is clicked, hide the UI
+    // Quando o botão de fechar é clicado, ocultar a interface do teclado
     closeImage.onClick = new OnClick((): void => {
       this.container.visible = false;
     });
 
-    // 3 boxes to show the entered code or current message
+    // 3 caixas para mostrar o código inserido ou a mensagem atual
     this.panelInputs = [];
     for (let i = 0; i < 3; i++) {
       const inputImage = new UIImage(
@@ -82,44 +82,44 @@ export class Keypad {
       this.panelInputs.push(inputSlot);
     }
 
-    // User input buttons
+    // Botões de entrada do usuário
     for (let col = 0; col < 3; col++) {
       for (let row = 0; row < 4; row++) {
-        // The value this button represents
+        // O valor que este botão representa
         let value: number;
         if (col == 1 && row == 3) {
-          // The 0 button is a special case
+          // O botão 0 é um caso especial
           value = 0;
         } else {
           value = row * 3 + col + 1;
         }
 
-        // Create the button and its event
+        // Criar o botão e seu evento
         let buttonImage: UIImage = null;
         if (col == 0 && row == 3) {
-          // The clear button in the bottom left
+          // O botão de limpar no canto inferior esquerdo
           buttonImage = new UIImage(
             this.container,
             resources.textures.clearButton
           );
 
-          // Call onReset when clicked
+          // Chamar onReset quando clicado
           buttonImage.onClick = new OnClick((): void => {
             this.onReset();
           });
         } else if (col == 2 && row == 3) {
-          // The enter button in the bottom right
+          // O botão de envio no canto inferior direito
           buttonImage = new UIImage(
             this.container,
             resources.textures.enterButton
           );
 
-          // Call onSubmit when clicked
+          // Chamar onSubmit quando clicado
           buttonImage.onClick = new OnClick((): void => {
             this.onSubmit();
           });
         } else {
-          // A number value button
+          // Um botão de valor numérico
           buttonImage = new UIImage(
             this.container,
             resources.textures.numberButton
@@ -132,13 +132,13 @@ export class Keypad {
           numberText.hTextAlign = "center";
           numberText.value = value.toString();
 
-          // Call onInput when clicked
+          // Chamar onInput quando clicado
           buttonImage.onClick = new OnClick((): void => {
             this.onInput(value);
           });
         }
 
-        // Configure button image
+        // Configurar a imagem do botão
         buttonImage.sourceWidth = 171;
         buttonImage.sourceHeight = 171;
         buttonImage.width = buttonSize.x;
@@ -151,7 +151,7 @@ export class Keypad {
     }
   }
 
-  // Display a message above the keypad, up to 3 characters
+  // Exibir uma mensagem acima do teclado, até 3 caracteres
   public display(message: string, color: Color4 = Color4.White()): void {
     for (let i = 0; i < this.panelInputs.length; i++) {
       const character = message.length > i ? message[i] : "";
