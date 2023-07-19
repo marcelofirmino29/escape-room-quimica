@@ -4,7 +4,7 @@ import { StateMachineCollisionEvent } from "./stateMachineCollisionEvent";
 import { MouseComponent } from "../components/mouseComponent";
 
 /**
- * bubble floating around pushed by some wind from the fans
+ * Estado da bolha flutuando empurrada por algum vento dos ventiladores
  */
 export class MouseBubbleState extends StateMachine.State {
   mouseComponent: MouseComponent;
@@ -12,9 +12,9 @@ export class MouseBubbleState extends StateMachine.State {
   time: number;
 
   /**
-   * create an instance of the state
-   * @param mouseComponent mouse component
-   * @param bubbleBurstState burst bubble state
+   * Cria uma instância do estado
+   * @param mouseComponent Componente do rato
+   * @param bubbleBurstState Estado de estouro da bolha
    */
   constructor(
     mouseComponent: MouseComponent,
@@ -24,29 +24,31 @@ export class MouseBubbleState extends StateMachine.State {
     this.mouseComponent = mouseComponent;
     this.bubbleBurstState = bubbleBurstState;
   }
+
   /**
-   * called when state starts
+   * Chamado quando o estado começa
    */
   onStart() {
     this.time = 0.5;
   }
+
   /**
-   * called when state is updated
-   * @param dt delta
-   * return TRUE to keep state running, FALSE to finish state
+   * Chamado quando o estado é atualizado
+   * @param dt Delta
+   * @returns TRUE para manter o estado em execução, FALSE para finalizar o estado
    */
   onUpdateState(dt: number) {
-    //increment time
+    // incrementar o tempo
     this.time += dt;
-    //calc new position according to mouse direction, speed and time
+    // calcular a nova posição de acordo com a direção do rato, velocidade e tempo
     const newPosition = this.mouseComponent.transform.position.add(
       this.mouseComponent.direction.scale(0.2 * dt)
     );
-    //let's use the SIN function to move the mouse a little up and down
+    // vamos usar a função SIN para mover o rato um pouco para cima e para baixo
     newPosition.y = 1.5 + Math.sin(this.time) * 0.1;
-    //set new position to mouse
+    // definir a nova posição para o rato
     this.mouseComponent.transform.position = newPosition;
-    //check room boundries
+    // verificar os limites da sala
     if (this.mouseComponent.transform.position.x < -1.12) {
       this.mouseComponent.transform.position.x = -1.12;
     } else if (this.mouseComponent.transform.position.x > 0.98) {
@@ -59,25 +61,26 @@ export class MouseBubbleState extends StateMachine.State {
     }
     return true;
   }
+
   /**
-   * handle events received by the state machine
-   * @param event event to handle
+   * Lidar com eventos recebidos pela máquina de estados
+   * @param event Evento a ser tratado
    */
   onHandleEvent(event: StateMachine.IStateEvent) {
-    //if bubble is clicked we burst it
+    // se a bolha for clicada, estouramos ela
     if (event instanceof StateMachineOnClickEvent) {
       event.stateMachine.setState(this.bubbleBurstState);
     }
-    //if we trigger a collision
+    // se provocarmos uma colisão
     else if (event instanceof StateMachineCollisionEvent) {
-      //if it's a FAN, then we move in it's forward direction
+      // se for um VENTILADOR, então nos movemos na direção para a frente dele
       if (event.triggerType == StateMachineCollisionEvent.FANS) {
         const parentForward = Vector3.Forward().rotate(
           event.entity.getComponent(Transform).rotation
         );
         this.mouseComponent.direction = parentForward;
       }
-      //if it's a PIKE then the bubble should burst
+      // se for um ESPIGO, então a bolha deve estourar
       else if (event.triggerType == StateMachineCollisionEvent.PIKES) {
         event.stateMachine.setState(this.bubbleBurstState);
       }

@@ -3,7 +3,7 @@ import utils from "../../node_modules/decentraland-ecs-utils/index";
 import { MouseComponent } from "../components/mouseComponent";
 
 /**
- * state for when mouse dies
+ * Estado para quando o rato morre
  */
 export class MouseDeadState extends StateMachine.State {
   mouseComponent: MouseComponent;
@@ -13,15 +13,16 @@ export class MouseDeadState extends StateMachine.State {
     super();
     this.mouseComponent = mouseComponent;
   }
+
   /**
-   * called when state starts
+   * Chamado quando o estado começa
    */
   onStart() {
-    //state is running
+    // estado em execução
     this.isStateRunning = true;
-    //set time for the transfom system's components
+    // definir o tempo para os componentes do sistema de transformação
     const time = 1.5;
-    //rotate the mouse
+    // rotacionar o rato
     this.mouseComponent.mouseEntity.addComponent(
       new utils.RotateTransformComponent(
         this.mouseComponent.transform.rotation,
@@ -31,27 +32,27 @@ export class MouseDeadState extends StateMachine.State {
         time
       )
     );
-    //and scale it down
+    // e diminuir a escala
     this.mouseComponent.mouseEntity.addComponent(
       new utils.ScaleTransformComponent(
         this.mouseComponent.transform.scale,
         Vector3.Zero(),
         time,
         (): void => {
-          //now the state should end
+          // agora o estado deve terminar
           this.isStateRunning = false;
         },
         utils.InterpolationType.EASEINQUAD
       )
     );
   }
+
   /**
-   * called when state is updated
-   * @param dt delta
-   * return TRUE to keep state running, FALSE to finish state
+   * Chamado quando o estado é atualizado
+   * @returns TRUE para manter o estado em execução, FALSE para finalizar o estado
    */
   onUpdateState() {
-    //is state running?
+    // o estado está em execução?
     return this.isStateRunning;
   }
 }
