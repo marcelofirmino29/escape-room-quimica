@@ -14,82 +14,82 @@ import { MouseBubbleStartState } from "../stateMachine/mouseBubbleStartState";
 import { MouseFallingState } from "../stateMachine/mouseFallingState";
 import { MouseComponent } from "../components/mouseComponent";
 
-// Definir camadas de gatilho
-const MouseLayer = 8; // 1000 em binário
-const PikesLayer = 16; // 10000
-const BoxLayer = 32; // 100000
-const FanLayer = 64; // 1000000
-const CageLayer = 128; // 10000000
-// ex: 10100000 (160) significa gaiola ou caixa
+//set trigger layers
+const MouseLayer = 8; //       1000 in binary
+const PikesLayer = 16; //     10000
+const BoxLayer = 32; //      100000
+const FanLayer = 64; //     1000000
+const CageLayer = 128; //  10000000
+// e.g.                    10100000 (160) means cage or box
 
 export function CreateRoom9(): void {
-  // Criar entidade da porta
+  //create door entity
   const door = new Door(
     resources.models.door9,
     { position: new Vector3(23.2215, 0, 25.0522) },
     resources.sounds.doorSqueek
   );
 
-  // Ouvir evento de clique para alternar o estado da porta
+  //listen to onclick event to toggle door state
   door.addComponent(
     new OnPointerDown(() => {
       door.openDoor();
     })
   );
 
-  // Criar gaveta para dica
+  //create drawer for hint
   const drawer = new Entity();
   const drawerClip = new AnimationState("Drawer_Action", { looping: false });
   const drawerAnimator = new Animator();
   drawerAnimator.addClip(drawerClip);
   drawer.addComponent(new GLTFShape("models/room9/Drawer.glb"));
   drawer.addComponent(
-    new Transform({ position: new Vector3(20.5487, 0.6, 28.6556) })
+    new Transform({ position: new Vector3(20.5487, 0.563795, 28.6556) })
   );
   drawer.addComponent(drawerAnimator);
   engine.addEntity(drawer);
 
-  // Criar entidade da sala
+  //create room entity
   const roomEntity = new Entity();
-  // Adicionar forma GLTF
+  //add gltf shape
   roomEntity.addComponent(new GLTFShape("models/room9/Puzzle09_Game.glb"));
-  // Adicionar e definir transformação
+  //add and set transform
   roomEntity.addComponent(
     new Transform({ position: new Vector3(19.0928, 0, 28.6582) })
   );
-  // Criar animador
+  //create animator
   const roomAnimator = new Animator();
-  // Criar estado de animação para a sala
+  //create animation state for room
   const roomAnimation = new AnimationState("Spikes_Action", { looping: true });
-  // Adicionar clipe ao animador
+  //add clip to animator
   roomAnimator.addClip(roomAnimation);
-  // Adicionar animador à entidade
+  //add animator to entity
   roomEntity.addComponent(roomAnimator);
-  // Reproduzir animação
+  //play animation
   roomAnimation.play();
-  // Adicionar sala ao motor
+  //add room to engine
   engine.addEntity(roomEntity);
 
-  // Criar rato
+  //create mouse
   const mouseEntity = new Entity("mouse");
-  // Definir rato como filho da sala
+  //set mouse as child of room
   mouseEntity.setParent(roomEntity);
-  // Adicionar forma GLTF
+  //add gltf
   mouseEntity.addComponent(
     new GLTFShape("models/room9/Puzzle09_MouseWill.glb")
   );
-  // Criar e adicionar transformação
+  //create and add transform
   const mouseTransform = new Transform();
   mouseEntity.addComponent(mouseTransform);
-  // Criar e adicionar componente de rato
+  //create and add mouse component
   const mouseComponent = new MouseComponent(mouseEntity);
   mouseEntity.addComponent(mouseComponent);
 
-  // Criar máquina de estados
+  //create state machine
   const mouseStateMachine = new StateMachine();
   engine.addSystem(mouseStateMachine);
 
-  // Adicionar gatilho para o rato
+  //add trigger for mouse
   mouseEntity.addComponent(
     new utils.TriggerComponent(
       new utils.TriggerBoxShape(
@@ -98,11 +98,10 @@ export function CreateRoom9(): void {
       ),
       MouseLayer,
       PikesLayer | BoxLayer | FanLayer | CageLayer,
-      (entityEnter) => {
+      entityEnter => {
         let triggerType = StateMachineCollisionEvent.BOXES;
-        const triggerLayer = entityEnter.getComponent(
-          utils.TriggerComponent
-        ).layer;
+        const triggerLayer = entityEnter.getComponent(utils.TriggerComponent)
+          .layer;
         if (triggerLayer == PikesLayer) {
           triggerType = StateMachineCollisionEvent.PIKES;
         } else if (triggerLayer == FanLayer) {
@@ -121,42 +120,42 @@ export function CreateRoom9(): void {
     )
   );
 
-  // Criar estados do rato
-  // Estado para o rato aparecer quando o jogo começa
+  //create mouse states
+  //state for mouse appearing when game start
   const mouseStateAppear = new MouseStateAppear(mouseComponent);
-  // Estado para quando o rato morre
+  //state for when mouse died
   const mouseStateDie = new MouseDeadState(mouseComponent);
-  // Estado para o rato entrar na gaiola
+  //state for mouse entering the cage
   const mouseStateEnterCage = new MouseEnterCageState(mouseComponent, () => {
     drawerClip.play();
   });
-  // Estado para o rato andar
+  //state for mouse walking
   const mouseStateWalking = new MouseStateWalking(
     mouseComponent,
     mouseStateDie,
     mouseStateEnterCage
   );
-  // Estado para estourar a bolha
+  //state for bursting bubble
   const mouseStateBurstBubble = new MouseBurstBubbleState(mouseComponent);
-  // Estado para o rato flutuar dentro da bolha
+  //state for mouse floating inside bubble
   const mouseStateBubble = new MouseBubbleState(
     mouseComponent,
     mouseStateBurstBubble
   );
-  // Estado para a bolha aparecer e subir
+  //state for bubble appearing and going up
   const mouseStateBubbleAppear = new MouseBubbleStartState(
     mouseComponent,
     mouseStateBubble
   );
-  // Estado para o rato cair no chão
+  //state for mouse falling to the ground
   const mouseStateFalling = new MouseFallingState(
     mouseComponent,
     mouseStateDie
   );
 
-  // Ouvir clique no rato
+  //listen for click on mouse
   mouseEntity.addComponent(
-    new OnPointerDown((event) => {
+    new OnPointerDown(event => {
       mouseStateMachine.handleEvent(
         new StateMachineOnClickEvent(
           mouseStateMachine,
@@ -167,33 +166,33 @@ export function CreateRoom9(): void {
     })
   );
 
-  // Criar entidade da bolha
+  //create bubble entity
   const bubbleEntity = new Entity();
-  // Adicionar transformação
+  //add transform
   bubbleEntity.addComponent(
     new Transform({ position: new Vector3(0, 0.1, 0.05) })
   );
-  // Criar forma e adicionar como componente
+  //create shape and add it as component
   const bubbleShape = new SphereShape();
   bubbleEntity.addComponent(bubbleShape);
-  // Definir como invisível
+  //set it as invisible
   bubbleShape.visible = false;
-  // Criar material da bolha
+  //create bubble material
   const bubbleMaterial = new Material();
   bubbleMaterial.albedoTexture = new Texture("images/room9/bubbleTexture.png", {
-    hasAlpha: false,
+    hasAlpha: false
   });
   bubbleMaterial.transparencyMode = 2;
-  // Adicionar material da bolha
+  //add bubble material
   bubbleEntity.addComponent(bubbleMaterial);
-  // Definir bolha como filho do rato
+  //set bubble as child of mouse
   bubbleEntity.setParent(mouseEntity);
-  // Definir bolha para o componente de rato
+  //set bubble to mouseComponent
   mouseComponent.bubble = bubbleEntity;
 
-  // Ouvir clique na bolha
+  //listen for click on bubble
   bubbleEntity.addComponent(
-    new OnPointerDown((event) => {
+    new OnPointerDown(event => {
       mouseStateMachine.handleEvent(
         new StateMachineOnClickEvent(
           mouseStateMachine,
@@ -204,76 +203,77 @@ export function CreateRoom9(): void {
     })
   );
 
-  // Quais estados devem iniciar automaticamente quando um estado termina
+  //what states should automatically start when a state ends
   mouseStateAppear.nextState = mouseStateWalking;
   mouseStateBurstBubble.nextState = mouseStateFalling;
   mouseStateFalling.nextState = mouseStateWalking;
   mouseStateDie.nextState = mouseStateAppear;
 
-  // Definir estado inicial
+  //set initial state
   mouseStateMachine.setState(mouseStateAppear);
 
-  // Carregar clipe de áudio do ventilador
+  //load fan audio clio
   const audioClipFan = new AudioClip("sounds/fan.mp3");
 
-  // Criar forma do ventilador
+  //create fan shape
   const fanShape = new GLTFShape("models/room9/Fan.glb");
 
-  // Criar matriz de entidades de ventiladores
+  //create fan entities array
   const fans: Entity[] = [];
 
-  // Criar transformação dos ventiladores
+  //create fans transfrom
   const fansTransform: Transform[] = [
     new Transform({
       position: new Vector3(-3.18875, 1.01502, -0.57951),
       rotation: Quaternion.Euler(0, 90, 0),
-      scale: new Vector3(0.6, 0.6, 0.6),
+      scale: new Vector3(0.6, 0.6, 0.6)
     }),
     new Transform({
       position: new Vector3(-3.18875, 1.01502, 0.02),
       rotation: Quaternion.Euler(0, 90, 0),
-      scale: new Vector3(0.6, 0.6, 0.6),
+      scale: new Vector3(0.6, 0.6, 0.6)
     }),
     new Transform({
       position: new Vector3(0.169518, 1.01502, -2.94794),
-      scale: new Vector3(0.6, 0.6, 0.6),
+      scale: new Vector3(0.6, 0.6, 0.6)
     }),
     new Transform({
       position: new Vector3(0.75203, 1.01502, -2.94794),
-      scale: new Vector3(0.6, 0.6, 0.6),
+      scale: new Vector3(0.6, 0.6, 0.6)
     }),
     new Transform({
       position: new Vector3(-0.873027, 1.01502, 3.0735),
       rotation: Quaternion.Euler(0, 180, 0),
-      scale: new Vector3(0.6, 0.6, 0.6),
+      scale: new Vector3(0.6, 0.6, 0.6)
     }),
     new Transform({
       position: new Vector3(1.9556, 1.01502, 1.08835),
       rotation: Quaternion.Euler(0, -90, 0),
-      scale: new Vector3(0.6, 0.6, 0.6),
-    }),
+      scale: new Vector3(0.6, 0.6, 0.6)
+    })
   ];
 
-  fansTransform.forEach((transform) => {
-    // Instanciar animação
+  fansTransform.forEach(transform => {
+    //instantiate animation
     const fanAnimation = new AnimationState("Fan_Action", { looping: true });
-    // Criar animador
+    //create animator
     const fanAnimator = new Animator();
-    // Adicionar clipe ao animador
+    //add clip to animator
     fanAnimator.addClip(fanAnimation);
-    // Criar entidade
+    //create entity
     const fanEntity = new Entity();
-    // Adicionar forma
+    //add shape
     fanEntity.addComponent(fanShape);
-    // Adicionar animador
+    //add animator
     fanEntity.addComponent(fanAnimator);
-    // Adicionar transformação
+    //add transform
     fanEntity.addComponent(transform);
-    // Adicionar fonte de áudio
+    //add audio source
     fanEntity.addComponent(new AudioSource(audioClipFan));
-    // Definir sala como pai
+    //set room as parent
     fanEntity.setParent(roomEntity);
-    // Calcular tamanho e posição do gatilho
+
+    //calc trigger size and position
     const triggerSize = new Vector3(0.5, 0.5, 2.25).rotate(transform.rotation);
     triggerSize.x = Math.abs(triggerSize.x);
     triggerSize.y = Math.abs(triggerSize.y);
@@ -282,7 +282,7 @@ export function CreateRoom9(): void {
       transform.rotation
     );
 
-    // Criar componente de gatilho
+    //create trigger component
     const triggerComponent = new utils.TriggerComponent(
       new utils.TriggerBoxShape(triggerSize, triggerPosition),
       FanLayer
@@ -290,9 +290,9 @@ export function CreateRoom9(): void {
     triggerComponent.enabled = false;
     fanEntity.addComponent(triggerComponent);
 
-    // Adicionar componente de alternância
+    //add toggle component
     fanEntity.addComponent(
-      new utils.ToggleComponent(utils.ToggleState.Off, (newValue) => {
+      new utils.ToggleComponent(utils.ToggleState.Off, newValue => {
         if (newValue == utils.ToggleState.On) {
           fanAnimation.play();
           fanEntity.getComponent(AudioSource).playing = true;
@@ -306,23 +306,23 @@ export function CreateRoom9(): void {
         }
       })
     );
-    // Ouvir clique
+    //listen for click
     fanEntity.addComponent(
       new OnPointerDown((): void => {
         fanEntity.getComponent(utils.ToggleComponent).toggle();
       })
     );
 
-    // Adicionar entidade ao array
+    //add entity to array
     fans.push(fanEntity);
   });
 
-  // Definir alguns ventiladores como estado ON
+  //set some fans to ON state
   fans[0].getComponent(utils.ToggleComponent).set(utils.ToggleState.On);
   fans[3].getComponent(utils.ToggleComponent).set(utils.ToggleState.On);
   fans[4].getComponent(utils.ToggleComponent).set(utils.ToggleState.On);
 
-  // Gatilhos da sala
+  //room triggers
   const roomTriggerEntities: Entity[] = [
     new Entity(),
     new Entity(),
@@ -331,10 +331,10 @@ export function CreateRoom9(): void {
     new Entity(),
     new Entity(),
     new Entity(),
-    new Entity(),
+    new Entity()
   ];
 
-  // Criar gatilhos das pontas
+  //create pikes' triggers
   roomTriggerEntities[0].addComponent(
     new utils.TriggerComponent(
       new utils.TriggerBoxShape(
@@ -381,7 +381,7 @@ export function CreateRoom9(): void {
     )
   );
 
-  // Criar gatilhos das caixas
+  //create boxes's triggers
   roomTriggerEntities[5].addComponent(
     new utils.TriggerComponent(
       new utils.TriggerBoxShape(
@@ -410,7 +410,7 @@ export function CreateRoom9(): void {
     )
   );
 
-  // Criar gatilho da gaiola
+  //create cage's trigger
   const cageTrigger = new Entity();
   cageTrigger.addComponent(
     new utils.TriggerComponent(
@@ -423,8 +423,8 @@ export function CreateRoom9(): void {
   );
   cageTrigger.setParent(roomEntity);
 
-  // Definir gatilhos como filhos da entidade da sala
-  roomTriggerEntities.forEach((triggerEntity) => {
+  //set triggers as child of room entity
+  roomTriggerEntities.forEach(triggerEntity => {
     triggerEntity.setParent(roomEntity);
   });
 }

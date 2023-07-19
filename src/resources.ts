@@ -1,7 +1,6 @@
 /**
-
-    Recursos compartilhados que podem ser usados por vários gameObjects para melhorar o desempenho.
-    */
+ * Shared resources which may be used by multiple gameObjects, to improve performance.
+ */
 
 export default {
   sounds: {

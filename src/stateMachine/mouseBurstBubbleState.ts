@@ -3,7 +3,7 @@ import utils from "../../node_modules/decentraland-ecs-utils/index";
 import { MouseComponent } from "../components/mouseComponent";
 
 /**
- * Estado de estouro da bolha
+ * state for bubble bursting
  */
 export class MouseBurstBubbleState extends StateMachine.State {
   mouseComponent: MouseComponent;
@@ -12,9 +12,9 @@ export class MouseBurstBubbleState extends StateMachine.State {
   burstParticle: Entity;
 
   /**
-   * Cria uma instância do estado
-   * @param mouseComponent Componente do rato
-   * @param burstParticleSystem Sistema de partículas a ser usado quando a bolha estourar
+   * create an instance of the state
+   * @param mouseComponent mouse component
+   * @param burstParticleSystem particle system to use when bubble burst
    */
   constructor(mouseComponent: MouseComponent) {
     super();
@@ -36,28 +36,27 @@ export class MouseBurstBubbleState extends StateMachine.State {
     this.burstParticle.addComponent(new Transform({ scale: Vector3.Zero() }));
     this.burstParticle.setParent(mouseComponent.mouseEntity.getParent());
   }
-
   /**
-   * Chamado quando o estado começa
+   * called when state starts
    */
   onStart() {
-    // definir o estado como em execução
+    //set the state as running
     this.isStateRunning = true;
-    // diminuir a escala da bolha
+    //scale down the bubble
     this.mouseComponent.bubble.addComponent(
       new utils.ScaleTransformComponent(
         new Vector3(0.5, 0.5, 0.5),
         Vector3.One(),
         0.5,
         (): void => {
-          // o estado deve terminar agora
+          //the state shuld end now
           this.isStateRunning = false;
-          // definir a bolha como invisível
+          //set bubble as invisible
           this.mouseComponent.bubble.getComponent(SphereShape).visible = false;
-          // definir a posição da partícula
+          //set particle position
           const particleTransform = this.burstParticle.getComponent(Transform);
           particleTransform.position = this.mouseComponent.transform.position;
-          // reproduzir o efeito de partículas
+          //play particle effect
           this.burstParticle.addComponent(
             new utils.ScaleTransformComponent(
               Vector3.Zero(),
@@ -68,7 +67,7 @@ export class MouseBurstBubbleState extends StateMachine.State {
               }
             )
           );
-          // reproduzir o áudio
+          //play audioclip
           const audioSource = new AudioSource(this.audioClipPop);
           this.mouseComponent.mouseEntity.addComponentOrReplace(audioSource);
           audioSource.playOnce();
@@ -76,13 +75,13 @@ export class MouseBurstBubbleState extends StateMachine.State {
       )
     );
   }
-
   /**
-   * Chamado quando o estado é atualizado
-   * @returns TRUE para manter o estado em execução, FALSE para finalizar o estado
+   * called when state is updated
+   * @param dt delta
+   * return TRUE to keep state running, FALSE to finish state
    */
   onUpdateState() {
-    // o estado ainda está em execução?
+    //is state still running?
     return this.isStateRunning;
   }
 }
