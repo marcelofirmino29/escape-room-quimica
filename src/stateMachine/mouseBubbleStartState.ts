@@ -5,7 +5,7 @@ import { StateMachineCollisionEvent } from "./stateMachineCollisionEvent";
 import { MouseComponent } from "../components/mouseComponent";
 
 /**
- * state for bubble appearing and then going up in the air
+ * Estado para a bolha aparecer e depois subir no ar.
  */
 export class MouseBubbleStartState extends StateMachine.State {
   mouseComponent: MouseComponent;
@@ -14,9 +14,9 @@ export class MouseBubbleStartState extends StateMachine.State {
   audioClipInflate: AudioClip;
 
   /**
-   * create instance of the state
-   * @param mouseComponent mouse component
-   * @param bubbleState state for mouse inside bubble floating in place
+   * Cria uma instância do estado.
+   * @param mouseComponent componente do rato
+   * @param bubbleState estado para o rato dentro da bolha flutuando no lugar
    */
   constructor(mouseComponent: MouseComponent, bubbleState: StateMachine.State) {
     super();
@@ -24,22 +24,23 @@ export class MouseBubbleStartState extends StateMachine.State {
     this.bubbleState = bubbleState;
     this.audioClipInflate = new AudioClip("sounds/inflator.mp3");
   }
+
   /**
-   * called when state starts
+   * Chamado quando o estado começa.
    */
   onStart() {
-    //mouse is not fully up in the air yet
+    // O rato ainda não está totalmente no ar
     this.isUp = false;
-    //let's make the bubble appear
+    // Vamos fazer a bolha aparecer
     this.mouseComponent.bubble.getComponent(SphereShape).visible = true;
-    //scale the bubble to it's default scale
+    // Escalamos a bolha para sua escala padrão
     this.mouseComponent.bubble.addComponent(
       new utils.ScaleTransformComponent(
         Vector3.Zero(),
         new Vector3(0.3, 0.3, 0.3),
         1.5,
         (): void => {
-          //when bubble finish scaling up, whe move the mouse up in the air
+          // Quando a bolha terminar de escalar, levantamos o rato no ar
           const currentPosition = this.mouseComponent.transform.position;
           const targetPosition = new Vector3(
             currentPosition.x,
@@ -52,7 +53,7 @@ export class MouseBubbleStartState extends StateMachine.State {
               targetPosition,
               1,
               (): void => {
-                //now mouse is fully up in the air
+                // Agora o rato está totalmente no ar
                 this.isUp = true;
               }
             )
@@ -60,42 +61,44 @@ export class MouseBubbleStartState extends StateMachine.State {
         }
       )
     );
-    //play sound
+    // Tocamos o som
     const audioSource = new AudioSource(this.audioClipInflate);
     this.mouseComponent.mouseEntity.addComponentOrReplace(audioSource);
     audioSource.playOnce();
   }
+
   /**
-   * called when state is updated
+   * Chamado quando o estado é atualizado.
    * @param dt delta
-   * return TRUE to keep state running, FALSE to finish state
+   * Retorna TRUE para continuar o estado, FALSE para finalizar o estado
    */
   onUpdateState(dt: number) {
     return true;
   }
+
   /**
-   * handle events received by the state machine
-   * @param event event to handle
+   * Manipula os eventos recebidos pela máquina de estados.
+   * @param event evento a ser tratado
    */
   onHandleEvent(event: StateMachine.IStateEvent) {
-    //if bubble is clicked
+    // Se a bolha for clicada
     if (event instanceof StateMachineOnClickEvent) {
-      //and we are fully up in the air
+      // E estivermos totalmente no ar
       if (this.isUp) {
-        //we burst the bubblw
+        // Estouramos a bolha
         event.stateMachine.setState(event.burstState);
       }
     }
-    //if we receive a collision event
+    // Se recebermos um evento de colisão
     else if (event instanceof StateMachineCollisionEvent) {
-      //and the collision is with a trigger of a fan
+      // E a colisão for com um gatilho de um ventilador
       if (event.triggerType == StateMachineCollisionEvent.FANS) {
-        //get the forward vector of the fan and set it as mouse's direction
+        // Obtemos o vetor de frente do ventilador e definimos como a direção do rato
         const parentForward = Vector3.Forward().rotate(
           event.entity.getComponent(Transform).rotation
         );
         this.mouseComponent.direction = parentForward;
-        //and change the state to the bubble floating around state
+        // E mudamos o estado para o estado de bolha flutuante ao redor
         event.stateMachine.setState(this.bubbleState);
       }
     }

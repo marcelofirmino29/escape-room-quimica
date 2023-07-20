@@ -1,7 +1,9 @@
+// Importando recursos necessários
 import resources from "../resources";
 import { Door, ToggleEntity, Button } from "../gameObjects/index";
 import { ToggleModelComponent } from "../components/toggleModelComponent";
 
+// Posições dos botões e lâmpadas
 const buttonPositions = [
   new Vector3(23.0891, 1.58507, 10.2526),
   new Vector3(23.0891, 1.48205, 11.2557),
@@ -15,7 +17,9 @@ const bulbPositions = [
   new Vector3(23.408, 2.24542, 13.1888)
 ];
 
+// Função para criar a sala 7
 export function CreateRoom7(): void {
+  // Criando a porta e configurando o comportamento de abertura ao clicar nela
   const door = new Door(
     resources.models.door7,
     {
@@ -32,7 +36,7 @@ export function CreateRoom7(): void {
     })
   );
 
-  // Puzzle Lightbulbs
+  // Lâmpadas do quebra-cabeça
   const lightbulbs: ToggleEntity[] = [];
   for (let i = 0; i < 4; i++) {
     lightbulbs.push(
@@ -44,6 +48,7 @@ export function CreateRoom7(): void {
     );
   }
 
+  // Interações dos botões com as lâmpadas
   const buttonInteractions = [
     (): void => {
       lightbulbs[1].getComponent(ToggleModelComponent).toggle();
@@ -64,6 +69,8 @@ export function CreateRoom7(): void {
       lightbulbs[3].getComponent(ToggleModelComponent).toggle();
     }
   ];
+
+  // Verifica se todas as lâmpadas estão ligadas
   const areAllLightsOn = (): boolean => {
     for (const bulb of lightbulbs) {
       if (!bulb.getComponent(ToggleModelComponent).isOn()) {
@@ -73,7 +80,7 @@ export function CreateRoom7(): void {
     return true;
   };
 
-  // The TV displays the hint when toggled on
+  // A TV exibe a dica quando ativada
   const tvScreen = new ToggleEntity(
     { position: new Vector3(26.91, 0, 10.44) },
     resources.models.tvOn,
@@ -81,6 +88,7 @@ export function CreateRoom7(): void {
   );
 
   let areButtonsEnabled = true;
+  // Criando os botões e configurando o comportamento ao clicar neles
   for (let i = 0; i < buttonPositions.length; i++) {
     const button = new Button(resources.models.roundButton, {
       position: buttonPositions[i]

@@ -3,7 +3,7 @@ import utils from "../../node_modules/decentraland-ecs-utils/index";
 import { MouseComponent } from "../components/mouseComponent";
 
 /**
- * state to make mouse enter the cage
+ * Estado para fazer o rato entrar na gaiola.
  */
 export class MouseEnterCageState extends StateMachine.State {
   mouseComponent: MouseComponent;
@@ -11,45 +11,48 @@ export class MouseEnterCageState extends StateMachine.State {
   onStateFinish: () => void;
 
   /**
-   * create instance of the state
-   * @param mouseComponent mouse component
-   * @param onStateFinish callback when state ends
+   * Cria uma instância do estado.
+   * @param mouseComponent Componente do rato.
+   * @param onStateFinish Callback quando o estado termina.
    */
   constructor(mouseComponent: MouseComponent, onStateFinish: () => void) {
     super();
     this.mouseComponent = mouseComponent;
     this.onStateFinish = onStateFinish;
   }
+
   /**
-   * called when state starts
+   * Chamado quando o estado começa.
    */
   onStart() {
-    //the state is running
+    // O estado está em execução
     this.isStateRunning = true;
-    //let's move the mouse inside the cage
+    // Vamos mover o rato para dentro da gaiola
     this.mouseComponent.mouseEntity.addComponent(
       new utils.MoveTransformComponent(
         this.mouseComponent.transform.position,
         new Vector3(1.85275, 1.06965, -0.04),
         1.5,
         (): void => {
-          //state should end now
+          // O estado deve terminar agora
           this.isStateRunning = false;
         },
         utils.InterpolationType.EASEQUAD
       )
     );
   }
+
   /**
-   * called when state is updated
-   * @param dt delta
-   * return TRUE to keep state running, FALSE to finish state
+   * Chamado quando o estado é atualizado.
+   * @param dt Delta.
+   * Retorna TRUE para continuar o estado, FALSE para finalizar o estado.
    */
   onUpdateState() {
     return this.isStateRunning;
   }
+
   onEnd() {
-    //callback call
+    // Chamada de retorno
     if (this.onStateFinish) this.onStateFinish();
   }
 }

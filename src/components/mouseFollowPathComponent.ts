@@ -25,37 +25,37 @@ export class MouseFollowPathComponent {
     this.isInIdleTime = true;
   }
 
-  update(dt: number, mouseEntiy: IEntity) {
-    //check if waiting for start
+  update(dt: number, mouseEntity: IEntity) {
+    // Verifica se está esperando o início
     if (this.startDelay > 0) {
       this.startDelay -= dt;
     }
-    //when mouse is idle
+    // Quando o mouse está em repouso
     else if (this.isInIdleTime) {
-      //increase time in idle state
+      // Aumenta o tempo no estado de repouso
       this.currentTime += dt;
-      //when idle time is reached
+      // Quando o tempo de repouso é atingido
       if (this.currentTime >= this.idleTime) {
-        //we are not in idle state any more
+        // Não estamos mais em estado de repouso
         this.isInIdleTime = false;
 
-        //rotate mouse to look at it's next point in path
-        mouseEntiy.getComponent(Transform).lookAt(this.path[1]);
-        //add component to follow the path
-        mouseEntiy.addComponentOrReplace(
+        // Gira o mouse para olhar para o próximo ponto no caminho
+        mouseEntity.getComponent(Transform).lookAt(this.path[1]);
+        // Adiciona componente para seguir o caminho
+        mouseEntity.addComponentOrReplace(
           new utils.FollowPathComponent(
             this.path,
             this.movingTime,
             () => {
-              //when path is finished we reset mouse variables
+              // Quando o caminho é concluído, redefinimos as variáveis do mouse
               this.isInIdleTime = true;
               this.currentTime = 0;
-              //we set the mouse to go the other way arround next time
+              // Definimos o mouse para ir na direção oposta na próxima vez
               this.path.reverse();
             },
             (currentPoint, nextPoint) => {
-              //when we reach a new point in path we rotate the mouse to look at the next point
-              mouseEntiy.getComponent(Transform).lookAt(nextPoint);
+              // Quando chegamos a um novo ponto no caminho, giramos o mouse para olhar para o próximo ponto
+              mouseEntity.getComponent(Transform).lookAt(nextPoint);
             }
           )
         );

@@ -1,8 +1,11 @@
+// Importando entidades móveis e rotacionáveis e os utilitários necessários
 import { MovableEntity, RotatableEntity } from "../gameObjects/index";
 import utils from "../../node_modules/decentraland-ecs-utils/index";
 import resources from "../resources";
 
+// Função para criar a sala 4
 export function CreateRoom4(): void {
+  // Criando uma estante móvel
   const bookshelf = new MovableEntity(
     resources.models.door4,
     new Transform({
@@ -13,6 +16,7 @@ export function CreateRoom4(): void {
     3
   );
 
+  // Criando um livro móvel
   const movableBook = new MovableEntity(
     resources.models.book2,
     new Transform({
@@ -27,6 +31,7 @@ export function CreateRoom4(): void {
     })
   );
 
+  // Criando um copo de vinho móvel
   const wineGlass = new MovableEntity(
     resources.models.glass,
     new Transform({
@@ -41,6 +46,7 @@ export function CreateRoom4(): void {
     })
   );
 
+  // Criando um telescópio rotacionável
   const telescope = new RotatableEntity(
     resources.models.telescope,
     new Transform({
@@ -55,6 +61,7 @@ export function CreateRoom4(): void {
     })
   );
 
+  // Criando um globo terrestre rotacionável
   const globe = new RotatableEntity(
     resources.models.globe,
     new Transform({
@@ -71,6 +78,7 @@ export function CreateRoom4(): void {
     })
   );
 
+  // Criando um livro rotacionável
   const rotatableBook = new RotatableEntity(
     resources.models.book1,
     new Transform({
@@ -86,6 +94,7 @@ export function CreateRoom4(): void {
     })
   );
 
+  // Criando um suporte para velas rotacionável
   const candleHolder = new RotatableEntity(
     resources.models.candleHolder,
     new Transform({

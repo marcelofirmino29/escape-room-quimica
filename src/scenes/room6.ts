@@ -1,3 +1,4 @@
+// Importando utilitários e recursos necessários
 import utils from "../../node_modules/decentraland-ecs-utils/index";
 import resources from "../resources";
 import {
@@ -8,7 +9,9 @@ import {
 } from "../gameObjects/index";
 import { Keypad, MunaDialog } from "../ui/index";
 
+// Função para criar a sala 6, recebendo o canvas do jogo como parâmetro
 export function CreateRoom6(gameCanvas: UICanvas): void {
+  // Criando a porta e configurando o comportamento de abertura ao clicar nela
   const door = new Door(
     resources.models.door6,
     {
@@ -18,7 +21,7 @@ export function CreateRoom6(gameCanvas: UICanvas): void {
     resources.sounds.doorSqueak
   );
 
-  // A statue blocks the doorway
+  // Uma estátua bloqueia a passagem
   const munaStatue = new MovableEntity(
     resources.models.muna,
     { position: new Vector3(26.748, 0.1054, 20.765) },
@@ -27,11 +30,11 @@ export function CreateRoom6(gameCanvas: UICanvas): void {
     1.5
   );
 
-  // Prep the keypad UI
+  // Preparando a interface do teclado numérico
   const keypad = new Keypad(gameCanvas);
   keypad.container.visible = false;
 
-  // Add a panel which opens the UI when clicked
+  // Adicionando um painel que abre a interface ao ser clicado
   const numPadLock = new NumPadLock(resources.models.numpad2);
   numPadLock.addComponent(
     new OnPointerDown((): void => {
@@ -39,7 +42,7 @@ export function CreateRoom6(gameCanvas: UICanvas): void {
     })
   );
 
-  // Wire up the keypad logic
+  // Conectando a lógica do teclado numérico
   let currentInput = "";
   keypad.onInput = (value: number): void => {
     currentInput += value;
@@ -53,7 +56,7 @@ export function CreateRoom6(gameCanvas: UICanvas): void {
   };
   keypad.onSubmit = (): void => {
     if (currentInput == "104") {
-      // Correct!
+      // Correto!
       keypad.display("OK!", Color4.Green());
       numPadLock.playAccessGranted();
       numPadLock.removeComponent(OnPointerDown);
@@ -65,14 +68,14 @@ export function CreateRoom6(gameCanvas: UICanvas): void {
         })
       );
     } else {
-      // The password is incorrect
+      // A senha está incorreta
       keypad.display("Erro", Color4.Red());
       numPadLock.playAccessDenied();
       currentInput = "";
     }
   };
 
-  // Spotlights
+  // Refletores
   const spotLight1 = new Spotlight(
     {
       position: new Vector3(-0.04, 0, 0)
@@ -97,17 +100,17 @@ export function CreateRoom6(gameCanvas: UICanvas): void {
   );
   spotLight3.setParent(munaStatue);
 
-  // Define the dialog tree
+  // Definindo a estrutura da árvore de diálogo
   const dialog = new MunaDialog(gameCanvas);
 
-  // Kick off the dialog when the statue is clicked
+  // Iniciando o diálogo quando a estátua é clicada
   munaStatue.addComponent(
     new OnPointerDown((): void => {
       dialog.run();
     })
   );
 
-  // Reveal the hints as the player answers questions correctly.
+  // Revelando as dicas conforme o jogador responde corretamente às perguntas.
   dialog.onCorrectAnswer = (questionId: number) => {
     if (questionId === 0) {
       spotLight1.getComponent(utils.ToggleComponent).set(utils.ToggleState.On);

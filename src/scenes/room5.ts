@@ -1,9 +1,12 @@
+// Importando utilitários e recursos necessários
 import utils from "../../node_modules/decentraland-ecs-utils/index";
 import resources from "../resources";
 import { Door, Model, NumPadLock, RotatableEntity, MovableEntity } from "../gameObjects/index";
 import { ImageHint, Keypad } from "../ui/index";
 
+// Função para criar a sala 5, recebendo o canvas do jogo como parâmetro
 export function CreateRoom5(gameCanvas: UICanvas): void {
+  // Criando a porta e configurando o comportamento de abertura ao clicar nela
   const door = new Door(
     resources.models.door5,
     {
@@ -12,7 +15,7 @@ export function CreateRoom5(gameCanvas: UICanvas): void {
     resources.sounds.doorSqueak
   );
 
-  // Add a painting with the first hint
+  // Adicionando uma pintura com a primeira dica
   const painting = new Model(resources.models.pictureFrame, {
     position: new Vector3(22.2283, 7.60325, 20.9326)
   });
@@ -25,7 +28,7 @@ export function CreateRoom5(gameCanvas: UICanvas): void {
     })
   );
 
-  // And a carpet which covers a postit note
+  // E um tapete que cobre um bilhete de recado
   const carpet = new RotatableEntity(
     resources.models.carpet,
     {
@@ -41,7 +44,7 @@ export function CreateRoom5(gameCanvas: UICanvas): void {
     })
   );
 
-  // The postit contains the second hint
+  // O bilhete de recado contém a segunda dica
   const postit = new Model(resources.models.postit, {
     position: new Vector3(21.571, 5.50857, 25.9534)
   });
@@ -55,11 +58,11 @@ export function CreateRoom5(gameCanvas: UICanvas): void {
     })
   );
 
-  // Prep the keypad UI
+  // Preparando a interface do teclado numérico
   const keypad = new Keypad(gameCanvas);
   keypad.container.visible = false;
 
-  // Add a panel which opens the UI when clicked
+  // Adicionando um painel que abre a interface ao ser clicado
   const numPadLock = new NumPadLock(resources.models.numpad1);
   numPadLock.addComponent(
     new OnPointerDown((): void => {
@@ -79,7 +82,7 @@ export function CreateRoom5(gameCanvas: UICanvas): void {
   );
   
 
-  // Wire up the keypad logic
+  // Conectando a lógica do teclado numérico
   let currentInput = "";
   keypad.onInput = (value: number): void => {
     currentInput += value;
@@ -93,7 +96,7 @@ export function CreateRoom5(gameCanvas: UICanvas): void {
   };
   keypad.onSubmit = (): void => {
     if (currentInput == "155") {
-      // Correct!
+      // Correto!
       keypad.display("OK!", Color4.Green());
       numPadLock.playAccessGranted();
       numPadLock.addComponentOrReplace(
@@ -104,7 +107,7 @@ export function CreateRoom5(gameCanvas: UICanvas): void {
         })
       );
     } else {
-      // The password is incorrect
+      // A senha está incorreta
       keypad.display("Err", Color4.Red());
       numPadLock.playAccessDenied();
       currentInput = "";

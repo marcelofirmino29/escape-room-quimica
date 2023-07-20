@@ -1,7 +1,10 @@
+/**
+ * Importação da máquina de estados.
+ */
 import { StateMachine } from "../modules/stateMachine";
 
 /**
- * event for state machine when we click mouse or bubble
+ * Evento para a máquina de estados quando clicamos no mouse ou na bolha.
  */
 export class StateMachineOnClickEvent implements StateMachine.IStateEvent {
   stateMachine: StateMachine;
@@ -9,10 +12,11 @@ export class StateMachineOnClickEvent implements StateMachine.IStateEvent {
   burstState: StateMachine.State;
 
   /**
+   * Construtor da classe.
    *
-   * @param stateMachine state machine reference
-   * @param bubbleState reference of the state for creating bubble
-   * @param burstState reference of the state for bursting the bubble
+   * @param stateMachine Referência à máquina de estados.
+   * @param bubbleState Referência ao estado para criar a bolha.
+   * @param burstState Referência ao estado para estourar a bolha.
    */
   constructor(
     stateMachine: StateMachine,

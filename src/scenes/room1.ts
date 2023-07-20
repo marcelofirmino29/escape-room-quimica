@@ -10,7 +10,7 @@ export function CreateRoom1(): void {
     resources.sounds.doorSqueak
   );
 
-  // A statue blocks the doorway
+  // Uma estátua bloqueia a entrada
   const munaStatue = new MovableEntity(
     resources.models.muna,
     { position: new Vector3(21.89, 10.8, 23.07),

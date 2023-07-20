@@ -1,3 +1,4 @@
+// Importando recursos necessários
 import resources from "../resources";
 import { Door, Ticket, Mouse, ArcadeScreen } from "../gameObjects/index";
 import {
@@ -6,7 +7,9 @@ import {
 } from "../components/index";
 import utils from "../../node_modules/decentraland-ecs-utils/index";
 
+// Função para criar a sala 8
 export function CreateRoom8(): void {
+  // Criando a porta e configurando o comportamento de abertura ao clicar nela
   const door = new Door(
     resources.models.door8,
     {
@@ -21,13 +24,13 @@ export function CreateRoom8(): void {
     })
   );
 
-  // The ticket will reveal the hint for this room
+  // O bilhete revelará a dica para esta sala
   const ticket = new Ticket({
     position: new Vector3(18.1903, 0.397274, 11.771),
     rotation: Quaternion.Euler(0, 63.6, 0)
   });
 
-  // Adding Arcade Screen
+  // Adicionando uma tela de fliperama
   const columnCount = 5;
   const rowCount = 5;
 
@@ -40,7 +43,7 @@ export function CreateRoom8(): void {
     Quaternion.Euler(118, -45, 127.3)
   );
 
-  // Adding Mice to run across the screen
+  // Adicionando ratos para correr pela tela
   const mouse1 = new Mouse({
     position: new Vector3(25.82, 1.46, 4.25),
     scale: new Vector3(0.8, 0.8, 0.8)
@@ -50,11 +53,11 @@ export function CreateRoom8(): void {
     scale: new Vector3(0.8, 0.8, 0.8)
   });
 
-  // Adding Mouse Behaviour System
+  // Adicionando sistema de comportamento para os ratos
   const mouseBehaviorSystem = new MouseFollowPathSystem();
   engine.addSystem(mouseBehaviorSystem);
 
-  // Creating Mouse Follow Components
+  // Criando os componentes de seguir caminho para os ratos
   mouse1.addComponent(
     new MouseFollowPathComponent(
       7.5,
@@ -80,12 +83,12 @@ export function CreateRoom8(): void {
     )
   );
 
-  // When the player wins the game
+  // Quando o jogador vence o jogo
   arcade.onCompletion = () => {
-    // Reveal the hint
+    // Revelar a dica
     ticket.emitTicket();
 
-    // Removing Components to stop the mice
+    // Remover os componentes para parar os ratos
     mouse1.removeComponent(utils.FollowPathComponent);
     mouse2.removeComponent(utils.FollowPathComponent);
     engine.removeSystem(mouseBehaviorSystem);

@@ -13,7 +13,7 @@ export class ArcadeScreen {
     initialPosition: Vector3,
     screenRotation: Quaternion
   ) {
-    // Creating Materials
+    // Criando os Materiais
     const miceMaterial = new Material();
     miceMaterial.albedoColor = Color3.Magenta();
 
@@ -23,13 +23,13 @@ export class ArcadeScreen {
     const defaultMaterial = new Material();
     defaultMaterial.albedoColor = Color3.Teal();
 
-    // Creating Screen
+    // Criando a Tela
     const tileShape = new PlaneShape();
     tileShape.withCollisions = false;
 
     for (let column = 0; column < columnCount; column++) {
       for (let row = 0; row < rowCount; row++) {
-        // Calculating Tile Position
+        // Calculando a Posição do Azulejo
         let tilePos = new Vector3(
           column * (tileSize.x + tileSpacing.x),
           row * (tileSize.y + tileSpacing.y),
@@ -37,7 +37,7 @@ export class ArcadeScreen {
         );
         tilePos = initialPosition.add(tilePos.rotate(screenRotation));
 
-        // Creating Tile Entity
+        // Criando a Entidade do Azulejo
         const tileEntity = new Entity();
         engine.addEntity(tileEntity);
 
@@ -72,9 +72,9 @@ export class ArcadeScreen {
             2,
             (entityEnter): void => {
               if (entityEnter.hasComponent(MouseFollowPathComponent)) {
-                //check if the tile was painted by player
+                // Verifica se o azulejo foi pintado pelo jogador
                 if (tileEntity.getComponent(Material) == playerMaterial) {
-                  //decrease tiles painted variable
+                  // Diminui a variável de azulejos pintados
                   this.tilesPaintedByPlayer--;
                 }
                 tileEntity.addComponentOrReplace(miceMaterial);

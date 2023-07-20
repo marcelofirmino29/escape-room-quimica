@@ -1,8 +1,8 @@
 /**
- * A timer which can be placed on a wall.
+ * Um temporizador que pode ser colocado em uma parede.
  */
 export class Timer extends Entity {
-  // Store the text entity for use in the method below
+  // Armazena a entidade de texto para uso no método abaixo
 
   constructor(transform: TranformConstructorArgs) {
     super();
@@ -10,7 +10,7 @@ export class Timer extends Entity {
 
     this.addComponent(new Transform(transform));
 
-    // The value to display will be controlled by the scene itself
+    // O valor a ser exibido será controlado pela própria cena
     this.addComponent(new TextShape());
     this.getComponent(TextShape).color = Color3.Red();
     this.getComponent(TextShape).fontSize = 5;
@@ -26,7 +26,7 @@ export class Timer extends Entity {
     );
   }
 
-  // This method can be called anytime to change the number of seconds on the clock
+  // Este método pode ser chamado a qualquer momento para alterar o número de segundos no relógio
   public updateTimeString(seconds: number): void {
     this.getComponent(TextShape).value = this.formatTimeString(seconds);
   }
