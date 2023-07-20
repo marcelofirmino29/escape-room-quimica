@@ -44,7 +44,7 @@ export function CreateRoom9(): void {
   drawerAnimator.addClip(drawerClip);
   drawer.addComponent(new GLTFShape("models/room9/Drawer.glb"));
   drawer.addComponent(
-    new Transform({ position: new Vector3(20.5487, 0.6, 28.6556) })
+    new Transform({ position: new Vector3(20.5487, 0.563795, 28.6556) })
   );
   drawer.addComponent(drawerAnimator);
   engine.addEntity(drawer);

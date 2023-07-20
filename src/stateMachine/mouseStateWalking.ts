@@ -4,7 +4,7 @@ import { StateMachineOnClickEvent } from "./stateMachineOnClickEvent";
 import { MouseComponent } from "../components/mouseComponent";
 
 /**
- * Estado de caminhada do rato
+ * mouse walking state
  */
 export class MouseStateWalking extends StateMachine.State {
   mouseComponent: MouseComponent;
@@ -12,10 +12,10 @@ export class MouseStateWalking extends StateMachine.State {
   cageState: StateMachine.State;
 
   /**
-   * Cria uma instância do estado
-   * @param mouseComponent Componente do rato
-   * @param deadState Estado para a morte do rato
-   * @param cageState Estado para entrar na gaiola
+   * create an instance of the state
+   * @param mouseComponent mouse component
+   * @param deadState state for mouse dying
+   * @param cageState state for going inside the cage
    */
   constructor(
     mouseComponent: MouseComponent,
@@ -27,28 +27,26 @@ export class MouseStateWalking extends StateMachine.State {
     this.deadState = deadState;
     this.cageState = cageState;
   }
-
   /**
-   * Chamado quando o estado começa
+   * called when state starts
    */
   onStart() {
-    // Rotaciona o rato para olhar na direção correta
+    //rotate mouse to look to direction
     this.mouseComponent.transform.lookAt(
       this.mouseComponent.transform.position.add(this.mouseComponent.direction)
     );
   }
-
   /**
-   * Chamado quando o estado é atualizado
-   * @param dt Delta
-   * Retorna TRUE para manter o estado em execução, FALSE para finalizar o estado
+   * called when state is updated
+   * @param dt delta
+   * return TRUE to keep state running, FALSE to finish state
    */
   onUpdateState(dt: number) {
-    // Move o rato
+    //move mouse
     this.mouseComponent.transform.position = this.mouseComponent.transform.position.add(
       this.mouseComponent.direction.scale(0.5 * dt)
     );
-    // Verifica os limites da sala para fazer o rato quicar e mudar de direção
+    //check room boundries to make the mouse bounce and go the other direction
     if (this.mouseComponent.transform.position.x < -1.12) {
       this.mouseComponent.transform.position.x = -1.12;
       this.changeDirection();
@@ -65,23 +63,22 @@ export class MouseStateWalking extends StateMachine.State {
     }
     return true;
   }
-
   /**
-   * Manipula os eventos recebidos pela máquina de estados
-   * @param event Evento a ser manipulado
+   * handle events received by the state machine
+   * @param event event to handle
    */
   onHandleEvent(event: StateMachine.IStateEvent) {
-    // Se receber uma colisão
+    //if a collision is received
     if (event instanceof StateMachineCollisionEvent) {
-      // Se for uma colisão com PIKES, o rato deve morrer
+      //if it's PIKES then mouse should die
       if (event.triggerType == StateMachineCollisionEvent.PIKES) {
         event.stateMachine.setState(this.deadState);
       }
-      // Se for uma colisão com uma caixa (BOXES), o rato deve mudar de direção
+      //it it's a BOX then mouse should change it moving direction
       else if (event.triggerType == StateMachineCollisionEvent.BOXES) {
         this.changeDirection();
       }
-      // Se for uma colisão com a GAIOLA, chamamos o estado para finalizar o quebra-cabeça
+      //if it's the CAGE then we call the state to finish the puzzle
       else if (event.triggerType == StateMachineCollisionEvent.CAGE) {
         const mouseForward = Vector3.Forward().rotate(
           this.mouseComponent.transform.rotation
@@ -91,14 +88,14 @@ export class MouseStateWalking extends StateMachine.State {
         }
       }
     }
-    // Se o rato for clicado, a bolha deve aparecer
+    //if mouse is clicked then bubble should appear
     else if (event instanceof StateMachineOnClickEvent) {
       event.stateMachine.setState(event.bubbleState);
     }
   }
 
   /**
-   * Muda a direção de movimento e a rotação do rato
+   * change mouse moving direction and mouse rotation
    */
   private changeDirection() {
     this.mouseComponent.direction = this.mouseComponent.direction.scale(-1);

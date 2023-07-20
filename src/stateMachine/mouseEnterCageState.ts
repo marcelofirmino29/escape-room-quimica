@@ -3,7 +3,7 @@ import utils from "../../node_modules/decentraland-ecs-utils/index";
 import { MouseComponent } from "../components/mouseComponent";
 
 /**
- * Estado para fazer o rato entrar na gaiola
+ * state to make mouse enter the cage
  */
 export class MouseEnterCageState extends StateMachine.State {
   mouseComponent: MouseComponent;
@@ -11,50 +11,45 @@ export class MouseEnterCageState extends StateMachine.State {
   onStateFinish: () => void;
 
   /**
-   * Cria uma instância do estado
-   * @param mouseComponent Componente do rato
-   * @param onStateFinish Função de retorno quando o estado termina
+   * create instance of the state
+   * @param mouseComponent mouse component
+   * @param onStateFinish callback when state ends
    */
   constructor(mouseComponent: MouseComponent, onStateFinish: () => void) {
     super();
     this.mouseComponent = mouseComponent;
     this.onStateFinish = onStateFinish;
   }
-
   /**
-   * Chamado quando o estado começa
+   * called when state starts
    */
   onStart() {
-    // o estado está em execução
+    //the state is running
     this.isStateRunning = true;
-    // vamos mover o rato para dentro da gaiola
+    //let's move the mouse inside the cage
     this.mouseComponent.mouseEntity.addComponent(
       new utils.MoveTransformComponent(
         this.mouseComponent.transform.position,
         new Vector3(1.85275, 1.06965, -0.04),
         1.5,
         (): void => {
-          // o estado deve terminar agora
+          //state should end now
           this.isStateRunning = false;
         },
         utils.InterpolationType.EASEQUAD
       )
     );
   }
-
   /**
-   * Chamado quando o estado é atualizado
-   * @returns TRUE para manter o estado em execução, FALSE para finalizar o estado
+   * called when state is updated
+   * @param dt delta
+   * return TRUE to keep state running, FALSE to finish state
    */
   onUpdateState() {
     return this.isStateRunning;
   }
-
-  /**
-   * Chamado quando o estado termina
-   */
   onEnd() {
-    // chamada de retorno
+    //callback call
     if (this.onStateFinish) this.onStateFinish();
   }
 }

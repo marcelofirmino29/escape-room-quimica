@@ -3,7 +3,7 @@ import utils from "../../node_modules/decentraland-ecs-utils/index";
 import { MouseComponent } from "../components/mouseComponent";
 
 /**
- * Estado de aparição do rato
+ * mouse appearing state
  */
 export class MouseStateAppear extends StateMachine.State {
   mouseComponent: MouseComponent;
@@ -14,20 +14,20 @@ export class MouseStateAppear extends StateMachine.State {
   }
 
   /**
-   * Chamado quando o estado começa
+   * called when state starts
    */
   onStart() {
-    // define a posição inicial do rato
+    //set mouse to it initial position
     this.mouseComponent.transform.position = new Vector3(
       -0.872083,
       1,
       -0.579439
     );
-    // define a escala inicial do rato
+    //set mouse to it initial scale
     this.mouseComponent.transform.scale = Vector3.Zero();
-    // define a direção como zero
+    //set direction to zero
     this.mouseComponent.direction = Vector3.Zero();
-    // inicia a escalonamento do rato e define a direção quando terminar de escalonar
+    //start scaling mouse and set it direction when finish scaling
     this.mouseComponent.mouseEntity.addComponent(
       new utils.ScaleTransformComponent(
         Vector3.Zero(),

@@ -1,7 +1,7 @@
 import { StateMachine } from "../modules/stateMachine";
 
 /**
- * Evento para a máquina de estados quando uma colisão é acionada
+ * event for state machine when a collision is triggered
  */
 export class StateMachineCollisionEvent implements StateMachine.IStateEvent {
   static readonly PIKES = 0;
@@ -15,9 +15,9 @@ export class StateMachineCollisionEvent implements StateMachine.IStateEvent {
 
   /**
    *
-   * @param stateMachine Referência da máquina de estados
-   * @param entity Referência da entidade com a qual colidimos
-   * @param triggerType Tipo do gatilho com o qual colidimos
+   * @param stateMachine state machine reference
+   * @param entity reference of the entity we collide with
+   * @param triggerType type of the trigger we collide with
    */
   constructor(stateMachine: StateMachine, entity: Entity, triggerType: number) {
     this.stateMachine = stateMachine;

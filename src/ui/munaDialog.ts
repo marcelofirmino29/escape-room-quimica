@@ -11,7 +11,7 @@ export class MunaDialog extends SimpleDialog {
   public onCorrectAnswer: (questionId: number) => void;
 
   constructor(gameCanvas: UICanvas) {
-    // Criar um novo SimpleDialog para gerenciar a árvore de diálogo
+    // Create a new SimpleDialog to manage the dialog tree
     super({
       canvas: gameCanvas,
       leftPortrait: {
@@ -51,23 +51,22 @@ export class MunaDialog extends SimpleDialog {
       }
     });
 
-    // Algumas respostas aleatórias para Muna
+    // Some random replies for muna
     const randomStartingOptions = [
-      "Entendo...", "...", "...OK..."
-    ];
+      "Entendo...", "...", "...OK..."];
     const randomWrongAnswers = [
       "Você está apenas adivinhando...",
       "Não não é...",
       "O quê? Nem perto!"
     ];
 
-    // Variáveis usadas na árvore de diálogo
+    // Variables used in the dialog tree
     let firstTimeDialog = true;
     let firstOptionCorrect = false;
     let secondOptionCorrect = false;
     let thirdOptionCorrect = false;
 
-    // Cores do texto do diálogo
+    // Dialog text colors
     const npcColor = Color4.White();
     const playerColor = new Color4(0.898, 0, 0.157);
 
@@ -88,8 +87,11 @@ export class MunaDialog extends SimpleDialog {
         SimpleDialog.PortraitIndex.RIGHT,
         resources.textures.npcPortraitSurprised
       )
-      .say(() =>
-        "Você também é um urso falante... não me vê fazendo nenhum julgamento.", { color: npcColor })
+      .say(
+        () =>
+          "Você também é um urso falante... não me vê fazendo nenhum julgamento.",
+        { color: npcColor }
+      )
       .showPortrait(
         SimpleDialog.PortraitIndex.LEFT,
         resources.textures.playerPortraitThinking
