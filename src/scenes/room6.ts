@@ -24,7 +24,7 @@ export function CreateRoom6(gameCanvas: UICanvas): void {
   // Uma estátua bloqueia a passagem
   const munaStatue = new MovableEntity(
     resources.models.muna,
-    { position: new Vector3(26.748, 0.1054, 20.765) },
+    { position: new Vector3(27.0, 0.1054, 20.765) },
     resources.sounds.moveObject1,
     new Vector3(0, 0, 2),
     1.5
